@@ -18,7 +18,7 @@ Aby uruchomić aplikację w trybie deweloperskim bezpośrednio z kodu źródłow
 1. Otwórz terminal.
 2. Przejdź do katalogu projektu:
    ```bash
-   cd /Users/szymonmosor/DOKI/ipLinux
+   cd /Users/user/ipLinux
    ```
 3. Uruchom aplikację komendą:
    ```bash
