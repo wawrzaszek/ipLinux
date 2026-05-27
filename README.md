@@ -11,6 +11,24 @@ dotnet --version
 ```
 Jeśli środowisko jest zainstalowane, powinieneś zobaczyć wersję `9.x.x`.
 
+### Instalacja na świeżym systemie Ubuntu
+
+Jeśli dopiero co postawiłeś system (Ubuntu/Debian) i nie masz jeszcze narzędzi programistycznych, wklej w terminal poniższe polecenia:
+
+```bash
+# 1. Instalacja podstawowych narzędzi systemowych
+sudo apt-get update
+sudo apt-get install -y wget apt-transport-https software-properties-common
+
+# 2. Pobranie kluczy repozytorium Microsoftu
+wget https://packages.microsoft.com/config/ubuntu/$(lsb_release -rs)/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
+sudo dpkg -i packages-microsoft-prod.deb
+rm packages-microsoft-prod.deb
+
+# 3. Instalacja właściwego środowiska .NET 9.0 SDK
+sudo apt-get update
+sudo apt-get install -y dotnet-sdk-9.0
+```
 ## Instrukcja uruchomienia (dewelopersko)
 
 Aby uruchomić aplikację w trybie deweloperskim bezpośrednio z kodu źródłowego:
