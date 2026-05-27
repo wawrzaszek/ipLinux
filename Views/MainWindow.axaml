@@ -1,0 +1,129 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:IpCalculatorLinux.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="600"
+        x:Class="IpCalculatorLinux.Views.MainWindow"
+        x:DataType="vm:MainWindowViewModel"
+        Icon="/Assets/avalonia-logo.ico"
+        Title="Kalkulator IP"
+        Width="550" Height="650"
+        WindowStartupLocation="CenterScreen"
+        RequestedThemeVariant="Dark"
+        Background="#1E1E1E">
+
+    <Design.DataContext>
+        <vm:MainWindowViewModel/>
+    </Design.DataContext>
+
+    <Window.Styles>
+        <Style Selector="TextBlock.Header">
+            <Setter Property="FontSize" Value="24"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Foreground" Value="#4DA8DA"/>
+            <Setter Property="Margin" Value="0,0,0,20"/>
+        </Style>
+        <Style Selector="TextBlock.Label">
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Foreground" Value="#AAAAAA"/>
+            <Setter Property="Margin" Value="0,0,0,5"/>
+        </Style>
+        <Style Selector="TextBlock.Value">
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Foreground" Value="#FFFFFF"/>
+            <Setter Property="Margin" Value="0,0,0,15"/>
+        </Style>
+        <Style Selector="TextBox">
+            <Setter Property="Background" Value="#2D2D30"/>
+            <Setter Property="Foreground" Value="#FFFFFF"/>
+            <Setter Property="BorderBrush" Value="#3F3F46"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="CornerRadius" Value="4"/>
+            <Setter Property="Padding" Value="8"/>
+            <Setter Property="FontSize" Value="16"/>
+        </Style>
+        <Style Selector="Border.Card">
+            <Setter Property="Background" Value="#252526"/>
+            <Setter Property="CornerRadius" Value="8"/>
+            <Setter Property="Padding" Value="20"/>
+            <Setter Property="BorderBrush" Value="#333337"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BoxShadow" Value="0 4 10 0 #111111"/>
+        </Style>
+    </Window.Styles>
+
+    <ScrollViewer>
+        <StackPanel Margin="30">
+            <!-- Nagłówek -->
+            <TextBlock Text="Kalkulator IP" Classes="Header" HorizontalAlignment="Center" />
+
+            <!-- Sekcja Wejścia -->
+            <Border Classes="Card" Margin="0,0,0,20">
+                <Grid ColumnDefinitions="*, 20, 80">
+                    <StackPanel Grid.Column="0">
+                        <TextBlock Text="Adres IP:" Classes="Label"/>
+                        <TextBox Text="{Binding IpAddressInput, Mode=TwoWay}" PlaceholderText="np. 192.168.1.1"/>
+                    </StackPanel>
+                    
+                    <StackPanel Grid.Column="2">
+                        <TextBlock Text="CIDR:" Classes="Label"/>
+                        <TextBox Text="{Binding CidrInput, Mode=TwoWay}" PlaceholderText="24"/>
+                    </StackPanel>
+                </Grid>
+            </Border>
+
+            <!-- Błędy -->
+            <TextBlock Text="{Binding ErrorMessage}" Foreground="#F44336" FontWeight="Bold" 
+                       IsVisible="{Binding ErrorMessage, Converter={x:Static StringConverters.IsNotNullOrEmpty}}" 
+                       Margin="0,0,0,20" HorizontalAlignment="Center"/>
+
+            <!-- Sekcja Wyników -->
+            <Border Classes="Card" IsVisible="{Binding Result, Converter={x:Static ObjectConverters.IsNotNull}}">
+                <Grid ColumnDefinitions="*, *" RowDefinitions="Auto, Auto, Auto, Auto, Auto">
+                    
+                    <StackPanel Grid.Row="0" Grid.Column="0">
+                        <TextBlock Text="Adres Sieci:" Classes="Label"/>
+                        <TextBlock Text="{Binding Result.NetworkAddress}" Classes="Value"/>
+                    </StackPanel>
+
+                    <StackPanel Grid.Row="0" Grid.Column="1">
+                        <TextBlock Text="Adres Rozgłoszeniowy:" Classes="Label"/>
+                        <TextBlock Text="{Binding Result.BroadcastAddress}" Classes="Value"/>
+                    </StackPanel>
+
+                    <StackPanel Grid.Row="1" Grid.Column="0">
+                        <TextBlock Text="Maska Podsieci:" Classes="Label"/>
+                        <TextBlock Text="{Binding Result.SubnetMask}" Classes="Value"/>
+                    </StackPanel>
+
+                    <StackPanel Grid.Row="1" Grid.Column="1">
+                        <TextBlock Text="Klasa IP:" Classes="Label"/>
+                        <TextBlock Text="{Binding Result.IpClass}" Classes="Value"/>
+                    </StackPanel>
+
+                    <StackPanel Grid.Row="2" Grid.Column="0">
+                        <TextBlock Text="Pierwszy Host:" Classes="Label"/>
+                        <TextBlock Text="{Binding Result.FirstHost}" Classes="Value" Foreground="#4CAF50"/>
+                    </StackPanel>
+
+                    <StackPanel Grid.Row="2" Grid.Column="1">
+                        <TextBlock Text="Ostatni Host:" Classes="Label"/>
+                        <TextBlock Text="{Binding Result.LastHost}" Classes="Value" Foreground="#4CAF50"/>
+                    </StackPanel>
+
+                    <StackPanel Grid.Row="3" Grid.Column="0">
+                        <TextBlock Text="Liczba wszystkich hostów:" Classes="Label"/>
+                        <TextBlock Text="{Binding Result.TotalHosts}" Classes="Value"/>
+                    </StackPanel>
+
+                    <StackPanel Grid.Row="3" Grid.Column="1">
+                        <TextBlock Text="Liczba użytecznych hostów:" Classes="Label"/>
+                        <TextBlock Text="{Binding Result.UsableHosts}" Classes="Value" Foreground="#FF9800"/>
+                    </StackPanel>
+                </Grid>
+            </Border>
+        </StackPanel>
+    </ScrollViewer>
+</Window>
